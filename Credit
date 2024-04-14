@@ -1,0 +1,80 @@
+#include <cs50.h>
+#include <math.h>
+#include <stdio.h>
+
+long card, cpcard;
+int pos, total_sum = 0;
+
+int main(void)
+{
+    do
+    {
+        card = get_long("Number? "); // get card number
+    }
+    while (card == 0);
+
+    // Luna algorithm
+    cpcard = card;
+    do
+    {
+
+        if (pos % 2 != 0) // even digit
+        {
+            int twoper = 2 * (cpcard % 10);
+            if (twoper > 9)
+            {
+                total_sum += (twoper % 10 + twoper / 10);
+            }
+            else
+            {
+                total_sum += twoper;
+            }
+        }
+        else
+        {
+            total_sum += cpcard % 10; // odd digit
+        }
+        cpcard = cpcard / 10;
+        pos++;
+    }
+    while (cpcard != 0);
+
+    // print the right type of card
+    // Visa starts with 4 and can have 13 or 16 digits
+    // Mastercard starts with 52, 53, 54, 55 and have 16 digits
+    // American Express starts with 34, 37 and have 15 digits
+    if (total_sum % 10 != 0)
+    {
+        printf("INVALID\n");
+    }
+    else
+    {
+        if (pos == 15 && (card / 10000000000000 == 34 || card / 10000000000000 == 37))
+        {
+            printf("AMEX\n");
+        }
+        else if (pos == 13 && (card / 1000000000000 == 4))
+        {
+            printf("VISA\n");
+        }
+        else if (pos == 16)
+        {
+            if (card / 1000000000000000 == 4)
+            {
+                printf("VISA\n");
+            }
+            else if (card / 100000000000000 > 50 && card / 100000000000000 < 56)
+            {
+                printf("MASTERCARD\n");
+            }
+            else
+            {
+                printf("INVALID\n");
+            }
+        }
+        else
+        {
+            printf("INVALID\n");
+        }
+    }
+}
