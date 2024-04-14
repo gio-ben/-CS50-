@@ -1,0 +1,59 @@
+#include <cs50.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int values [] = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
+int compute (string word);
+
+int main(void)
+{
+    // get answer imput: Player 1 and Player 2. They  have to insert a string and not a int
+    string player1 = get_string("Player1: ");
+    string player2 = get_string("Player 2: ");
+
+
+    //compute the score of each player
+    int score1 = compute (player1);
+    int score2 = compute (player2);
+
+    //print the winner
+    if (score1 > score2)
+    {
+        printf("Player 1 wins\n");
+    }
+    else if (score1 < score2)
+    {
+        printf("Player 2 wins\n");
+    }
+    else
+    {
+        printf("Tie\n");
+    }
+
+
+}
+
+// compute the score of each player
+int compute (string word)
+{
+    // compute lenght of the words
+    int lenght = strlen(word);
+    // start the counting of the score
+    int score = 0;
+    // take the word, and change the char with the score. Take the scores from an array orientated
+    for (int i = 0; i < lenght; i++)
+    {
+        // which is the position of your value? Is the char of the word minus the A = the position from 0 to 22
+        // Capital letter
+        if (isupper(word[i]))
+        {
+            score += values [word [i] - 'A'];
+        }
+        else if (islower(word[i]))
+        {
+            score += values [word [i] - 'a'];
+        }
+    }
+    return score;
+}
